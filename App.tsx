@@ -1,17 +1,18 @@
+import "react-native-gesture-handler";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
-import { StyleSheet, Text, View } from "react-native";
 import { loadFonts } from "@utils/loadFonts";
+import CarDetails from "@screens/CarDetails";
+import { LogBox } from "react-native";
 
+LogBox.ignoreAllLogs(true);
 export default function App() {
   if (!loadFonts()) {
     return <AppLoading />;
   }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <CarDetails />
+    </>
   );
 }
