@@ -23,8 +23,8 @@ export const styles = () =>
       marginTop: getStatusBarHeight() + 32,
     },
     content: {
-      paddingHorizontal: 24,
-      paddingTop: getStatusBarHeight() + 16,
+      alignItems: "center",
+      padding: 24,
     },
     details: {
       width: "100%",
@@ -63,13 +63,59 @@ export const styles = () =>
       justifyContent: "space-between",
       marginTop: 16,
     },
-    about: {
-      fontFamily: fonts.primary_400,
-      color: colors.text,
+    rentalPeriod: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop: 40,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.line,
+      paddingBottom: 16,
+    },
+    calendarIcon: {
+      width: 48,
+      height: 48,
+      backgroundColor: colors.main,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    dateTitle: {
+      fontFamily: fonts.primary_500,
+      color: colors.text_detail,
+      fontSize: RFValue(16),
+      textTransform: "uppercase",
+    },
+    dateValue: {
+      fontFamily: fonts.primary_500,
+      color: colors.title,
       fontSize: RFValue(15),
-      textAlign: "justify",
-      marginTop: 23,
-      lineHeight: RFValue(23),
+    },
+    rentalPrice: {
+      width: "100%",
+      marginTop: 16,
+    },
+    rentalPriceLabel: {
+      fontFamily: fonts.primary_500,
+      color: colors.text_detail,
+      fontSize: RFValue(15),
+      textTransform: "uppercase",
+    },
+    rentalPriceDetails: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    rentalPriceQuota: {
+      fontFamily: fonts.primary_500,
+      color: colors.title,
+      fontSize: RFValue(15),
+    },
+    rentalPriceTotal: {
+      fontFamily: fonts.secondary_500,
+      color: colors.success,
+      fontSize: RFValue(22),
     },
     footer: {
       width: "100%",

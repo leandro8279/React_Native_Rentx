@@ -6,6 +6,9 @@ import { Button } from "@components/Button";
 import { ImageSlider } from "@components/ImageSlider";
 import SpeedSvg from "@assets/speed.svg";
 import { styles } from "./styles";
+import { RFValue } from "react-native-responsive-fontsize";
+import { Feather } from "@expo/vector-icons";
+import { colors } from "@global/theme";
 export function SchedulingDetails() {
   return (
     <View style={styles().container}>
@@ -46,14 +49,39 @@ export function SchedulingDetails() {
           <Accessory name="380Km/h" icon={SpeedSvg} />
         </View>
 
-        <Text style={styles().about}>
-          Este é automóvel desportivo. Surgiu do lendário touro de lide
-          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
-          para quem gosta de acelerar.
-        </Text>
+        <View style={styles().rentalPeriod}>
+          <View style={styles().calendarIcon}>
+            <Feather name="calendar" size={RFValue(24)} color={colors.shape} />
+          </View>
+
+          <View>
+            <Text style={styles().dateTitle}>DE</Text>
+            <Text style={styles().dateValue}>18/10/2021</Text>
+          </View>
+
+          <Feather
+            name="chevron-right"
+            size={RFValue(10)}
+            color={colors.text}
+          />
+
+          <View>
+            <Text style={styles().dateTitle}>ATÉ</Text>
+            <Text style={styles().dateValue}>21/10/2021</Text>
+          </View>
+        </View>
+
+        <View style={styles().rentalPrice}>
+          <Text style={styles().rentalPriceLabel}>TOTAL</Text>
+
+          <View style={styles().rentalPriceDetails}>
+            <Text style={styles().rentalPriceQuota}>R$ 580 x3 diárias</Text>
+            <Text style={styles().rentalPriceTotal}>R$ 2.900</Text>
+          </View>
+        </View>
       </ScrollView>
       <View style={styles().footer}>
-        <Button>Escolher período do aluguel</Button>
+        <Button color={colors.success}>Alugar agora</Button>
       </View>
     </View>
   );
