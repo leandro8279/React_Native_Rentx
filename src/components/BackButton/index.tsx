@@ -8,7 +8,7 @@ type Props = {
 };
 export default function BackButton({ color, onPress }: Props) {
   return (
-    <BorderlessButton onPress={onPress}>
+    <BorderlessButton onPress={() => alert("ola")}>
       <MaterialIcons
         name="chevron-left"
         size={24}
