@@ -1,13 +1,13 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Card } from "@components/index";
 import Logo from "@assets/logo.svg";
+import { Card } from "@components/index";
+import { AppStackParamList } from "@navigation/types";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import { View, Text, FlatList } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import { styles } from "./styles";
-import { AppStackParamList } from "@navigation/types";
 
 type HomeProps = NativeStackScreenProps<AppStackParamList, "Home">;
 export function Home({ navigation }: HomeProps) {
@@ -33,10 +33,10 @@ export function Home({ navigation }: HomeProps) {
 
       <FlatList
         data={[1, 2, 3, 4, 5, 6]}
-        keyExtractor={(item) => String(item)}
+        keyExtractor={item => String(item)}
         contentContainerStyle={{ padding: 16 }}
         renderItem={({ item }) => (
-          <Card data={carData} onPress={handleCarDetails} />
+          <Card data={carData} onPress={() => handleCarDetails} />
         )}
       />
     </View>
