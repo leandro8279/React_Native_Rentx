@@ -40,10 +40,14 @@ export function SchedulingDetails({
   const totalRent = Number(dates.length * car.rent.price);
   async function handleConfirmation() {
     try {
+      let unavailable_dates;
       const docRef = doc(db, "schedules_bycars", car.id);
       const docSnap = await getDoc(docRef);
-      const results = docSnap.data()?.unavailable_dates;
-      const unavailable_dates = [...results, ...dates];
+      if (docSnap.exists()) {
+        const results = docSnap.data()?.unavailable_dates;
+        unavailable_dates = [...results, ...dates];
+      }
+      unavailable_dates = dates;
       await setDoc(doc(db, "schedules_bycars", car.id), { unavailable_dates });
       navigation.navigate("Confirmation");
     } catch (error) {
