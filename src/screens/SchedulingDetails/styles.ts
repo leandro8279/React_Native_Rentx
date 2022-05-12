@@ -17,7 +17,7 @@ export const styles = () =>
       justifyContent: "space-between",
       alignItems: "center",
       position: "absolute",
-      marginTop: getStatusBarHeight() + 20,
+      marginTop: getStatusBarHeight() + 12,
       marginLeft: 24,
     },
     carImage: {
@@ -69,7 +69,7 @@ export const styles = () =>
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginTop: 40,
+      marginTop: 20,
       borderBottomWidth: 1,
       borderBottomColor: colors.line,
       paddingBottom: 16,

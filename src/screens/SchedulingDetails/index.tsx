@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import BackButton from "@components/BackButton";
 import { Accessory } from "@components/Accessory";
 import { Button } from "@components/Button";
@@ -14,21 +16,39 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { format } from "date-fns";
 import { getPlatformDate } from "@utils/getPlatformDate";
 import { getAccessoryIcon } from "@utils/getAccessoryIcon";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "@services/firebase";
 import { styles } from "./styles";
 
-type Props = NativeStackScreenProps<AppStackParamList, "SchedulingDetails">;
+type SchedulingDetailsProps = NativeStackScreenProps<
+  AppStackParamList,
+  "SchedulingDetails"
+>;
 type RentalPeriod = {
   start: string;
   end: string;
 };
-export function SchedulingDetails({ navigation, route }: Props) {
+
+export function SchedulingDetails({
+  navigation,
+  route,
+}: SchedulingDetailsProps) {
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
     {} as RentalPeriod,
   );
   const { car, dates } = route.params;
   const totalRent = Number(dates.length * car.rent.price);
-  function handleConfirmation() {
-    navigation.navigate("Confirmation");
+  async function handleConfirmation() {
+    try {
+      const docRef = doc(db, "schedules_bycars", car.id);
+      const docSnap = await getDoc(docRef);
+      const results = docSnap.data()?.unavailable_dates;
+      const unavailable_dates = [...results, ...dates];
+      await setDoc(doc(db, "schedules_bycars", car.id), { unavailable_dates });
+      navigation.navigate("Confirmation");
+    } catch (error) {
+      Alert.alert("Error ao realizar agendamento do carro");
+    }
   }
   useEffect(() => {
     setRentalPeriod({
