@@ -1,21 +1,66 @@
-import React from "react";
-import { View, Text, ScrollView, StatusBar } from "react-native";
+import React, { useState } from "react";
+import { View, Text, ScrollView, StatusBar, Alert } from "react-native";
 import ArrowSvg from "@assets/arrow.svg";
 import BackButton from "@components/BackButton";
-import { Calendar } from "@components/Calendar";
+import { Calendar, DayProps, MarkedDateProps } from "@components/Calendar";
 import { Button } from "@components/Button";
 
 import { colors } from "@global/theme";
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { generateInterval } from "@utils/generateInterval";
+import { getPlatformDate } from "@utils/getPlatformDate";
+import { format } from "date-fns";
 import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
+
+type RentalPeriod = {
+  startFormatted: string;
+  endFormatted: string;
+};
 export function Scheduling({ navigation, route }: Props) {
+  const [lastSelectedDate, setLastSelectedDate] = useState<DayProps>(
+    {} as DayProps,
+  );
+  const [markedDates, setMarkedDates] = useState<MarkedDateProps>(
+    {} as MarkedDateProps,
+  );
+  const [rentPeriod, setRentPeriod] = useState<RentalPeriod>(
+    {} as RentalPeriod,
+  );
   const { car } = route.params;
-  function handleSchedulingDetails() {
-    navigation.navigate("SchedulingDetails", { car });
+  function handleRentalConfirm() {
+    if (!rentPeriod.startFormatted || !rentPeriod.endFormatted) {
+      Alert.alert("Selecione a data inicial e data final que deseja alugar.");
+    } else {
+      navigation.navigate("SchedulingDetails", {
+        car,
+        dates: Object.keys(markedDates),
+      });
+    }
   }
+  const handleChangeDate = (date: DayProps) => {
+    let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
+    let end = date;
+    if (start.timestamp > end.timestamp) {
+      start = end;
+      end = start;
+    }
+    setLastSelectedDate(end);
+    const interval = generateInterval(start, end);
+    setMarkedDates(interval);
+    const firstDate = Object.keys(interval)[0];
+    const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
+    setRentPeriod({
+      startFormatted: format(
+        getPlatformDate(new Date(firstDate)),
+        "dd/MM/yyyy",
+      ),
+      endFormatted: format(getPlatformDate(new Date(endDate)), "dd/MM/yyyy"),
+    });
+  };
+
   return (
     <View style={styles().container}>
       <View style={styles().header}>
@@ -33,24 +78,28 @@ export function Scheduling({ navigation, route }: Props) {
         <View style={styles().rentalPeriod}>
           <View>
             <Text style={styles().dateTitle}>DE</Text>
-            <Text style={styles(false).dateValue}>18/10/2021</Text>
+            <Text style={styles(!rentPeriod.startFormatted).dateValue}>
+              {rentPeriod.startFormatted}
+            </Text>
           </View>
 
           <ArrowSvg />
 
           <View>
             <Text style={styles().dateTitle}>ATÉ</Text>
-            <Text style={styles(false).dateValue}> 20/10/2021</Text>
+            <Text style={styles(!rentPeriod.endFormatted).dateValue}>
+              {rentPeriod.endFormatted}
+            </Text>
           </View>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles().content}>
-        <Calendar />
+        <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
       </ScrollView>
 
       <View style={styles().footer}>
-        <Button onPress={handleSchedulingDetails} enabled>
+        <Button onPress={handleRentalConfirm} enabled>
           Confirmar
         </Button>
       </View>

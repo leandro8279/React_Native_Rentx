@@ -11,14 +11,35 @@ import { ptBR } from "./localeConfig";
 LocaleConfig.locales["pt-br"] = ptBR;
 LocaleConfig.defaultLocale = "pt-br";
 
-export function Calendar() {
+interface MarkedDateProps {
+  [date: string]: {
+    color: string;
+    textColor: string;
+    disabled?: boolean;
+    disableTouchEvent?: boolean;
+  };
+}
+
+interface DayProps {
+  dateString: string;
+  day: number;
+  month: number;
+  year: number;
+  timestamp: number;
+}
+
+interface CalendarProps {
+  markedDates: MarkedDateProps;
+  onDayPress: (date: DayProps) => void;
+}
+function Calendar({ markedDates, onDayPress }: CalendarProps) {
   return (
     <CustomCalendar
       renderArrow={direction => (
         <Feather
           size={24}
           color={colors.text}
-          name={direction == "left" ? "chevron-left" : "chevron-right"}
+          name={direction === "left" ? "chevron-left" : "chevron-right"}
         />
       )}
       headerStyle={{
@@ -41,6 +62,10 @@ export function Calendar() {
       }}
       firstDay={1}
       minDate={String(new Date())}
+      markingType="period"
+      markedDates={markedDates}
+      onDayPress={onDayPress}
     />
   );
 }
+export { Calendar, MarkedDateProps, DayProps };

@@ -44,7 +44,11 @@ export function CarDetails({ navigation, route }: Props) {
 
         <View style={styles().accessories}>
           {car.accessories.map(item => (
-            <Accessory name={item.name} icon={getAccessoryIcon(item.type)} />
+            <Accessory
+              key={item.type}
+              name={item.name}
+              icon={getAccessoryIcon(item.type)}
+            />
           ))}
         </View>
 
