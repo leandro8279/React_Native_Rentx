@@ -1,7 +1,11 @@
 import { colors } from "@global/theme";
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
-import { RectButtonProps, RectButton } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  TouchableOpacityProps,
+} from "react-native";
 
 import { styles } from "./styles";
 
@@ -10,24 +14,26 @@ type Props = {
   color?: string;
   loading?: boolean;
   light?: boolean;
-} & RectButtonProps;
+  enabled?: boolean;
+} & TouchableOpacityProps;
 export function Button({
   children,
   color = colors.main,
   enabled = true,
   loading = false,
   light = false,
+  ...rest
 }: Props) {
   return (
-    <RectButton
+    <TouchableOpacity
       style={styles({ color, enabled, loading }).container}
-      enabled={enabled}
+      {...rest}
     >
       {loading ? (
         <ActivityIndicator color={colors.shape} />
       ) : (
         <Text style={styles({ light }).title}>{children}</Text>
       )}
-    </RectButton>
+    </TouchableOpacity>
   );
 }

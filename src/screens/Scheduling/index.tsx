@@ -8,12 +8,19 @@ import { Button } from "@components/Button";
 
 import { styles } from "./styles";
 import { colors } from "@global/theme";
-export function Scheduling() {
+import { AppStackParamList } from "@navigation/types";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
+export function Scheduling({ navigation, route }: Props) {
+  function handleSchedulingDetails() {
+    navigation.navigate("SchedulingDetails");
+  }
   return (
     <View style={styles().container}>
       <View style={styles().header}>
         <StatusBar style="light" translucent backgroundColor="transparent" />
-        <BackButton onPress={() => {}} color={colors.shape} />
+        <BackButton onPress={() => navigation.goBack()} color={colors.shape} />
         <Text style={styles().title}>
           Escolha uma {"\n"}
           data de início e {"\n"}
@@ -39,7 +46,7 @@ export function Scheduling() {
       </ScrollView>
 
       <View style={styles().footer}>
-        <Button onPress={() => {}} enabled>
+        <Button onPress={handleSchedulingDetails} enabled>
           Confirmar
         </Button>
       </View>

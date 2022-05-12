@@ -1,5 +1,5 @@
 import React from "react";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@global/theme";
 type Props = {
@@ -8,12 +8,12 @@ type Props = {
 };
 export default function BackButton({ color, onPress }: Props) {
   return (
-    <BorderlessButton onPress={() => alert("ola")}>
+    <TouchableOpacity onPress={onPress}>
       <MaterialIcons
         name="chevron-left"
         size={24}
         color={color ? color : colors.text}
       />
-    </BorderlessButton>
+    </TouchableOpacity>
   );
 }

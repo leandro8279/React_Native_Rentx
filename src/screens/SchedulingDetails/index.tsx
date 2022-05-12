@@ -9,11 +9,19 @@ import { styles } from "./styles";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "@global/theme";
-export function SchedulingDetails() {
+
+import { AppStackParamList } from "@navigation/types";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
+export function SchedulingDetails({ navigation, route }: Props) {
+  function handleConfirmation() {
+    navigation.navigate("Confirmation");
+  }
   return (
     <View style={styles().container}>
       <View style={styles().header}>
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={() => navigation.goBack()} />
       </View>
 
       <View style={styles().carImage}>
@@ -81,7 +89,9 @@ export function SchedulingDetails() {
         </View>
       </ScrollView>
       <View style={styles().footer}>
-        <Button color={colors.success}>Alugar agora</Button>
+        <Button onPress={handleConfirmation} color={colors.success}>
+          Alugar agora
+        </Button>
       </View>
     </View>
   );

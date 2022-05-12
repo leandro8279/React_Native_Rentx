@@ -6,11 +6,17 @@ import { styles } from "./styles";
 import { Accessory } from "@components/Accessory";
 import { ImageSlider } from "@components/ImageSlider";
 import { Button } from "@components/Button";
-export default function CarDetails() {
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "@navigation/types";
+type Props = NativeStackScreenProps<AppStackParamList, "CarDetails">;
+export function CarDetails({ navigation, route }: Props) {
+  function handleScheduling() {
+    navigation.navigate("Scheduling");
+  }
   return (
     <View style={styles().container}>
       <View style={styles().header}>
-        <BackButton onPress={() => alert("ola")} />
+        <BackButton onPress={() => navigation.goBack()} />
       </View>
 
       <View style={styles().carImage}>
@@ -53,7 +59,7 @@ export default function CarDetails() {
         </Text>
       </ScrollView>
       <View style={styles().footer}>
-        <Button>Escolher período do aluguel</Button>
+        <Button onPress={handleScheduling}>Escolher período do aluguel</Button>
       </View>
     </View>
   );

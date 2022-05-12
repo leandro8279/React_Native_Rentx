@@ -1,12 +1,16 @@
 import React from "react";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, FlatList } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Card } from "@components/index";
 import Logo from "@assets/logo.svg";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import { styles } from "./styles";
-import { Card } from "@components/index";
-export default function Home() {
+import { AppStackParamList } from "@navigation/types";
+
+type HomeProps = NativeStackScreenProps<AppStackParamList, "Home">;
+export function Home({ navigation }: HomeProps) {
   const carData = {
     brand: "AUDI",
     name: "RS 5 Coupé",
@@ -16,6 +20,9 @@ export default function Home() {
     },
     thumbnail: "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png",
   };
+  function handleCarDetails() {
+    navigation.navigate("CarDetails");
+  }
   return (
     <View style={styles().container}>
       <StatusBar backgroundColor="transparent" style="light" translucent />
@@ -27,7 +34,10 @@ export default function Home() {
       <FlatList
         data={[1, 2, 3, 4, 5, 6]}
         keyExtractor={(item) => String(item)}
-        renderItem={({ item }) => <Card data={carData} />}
+        contentContainerStyle={{ padding: 16 }}
+        renderItem={({ item }) => (
+          <Card data={carData} onPress={handleCarDetails} />
+        )}
       />
     </View>
   );

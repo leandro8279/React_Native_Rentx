@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import GasolineSvg from "@assets/gasoline.svg";
 import { styles } from "./styles";
@@ -16,10 +16,15 @@ type CarData = {
 
 type Props = {
   data: CarData;
+  onPress: () => void;
 };
-export default function Card({ data }: Props) {
+export default function Card({ data, onPress }: Props) {
   return (
-    <View style={styles().container}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={styles().container}
+    >
       <View>
         <Text style={styles().brand}>{data.brand}</Text>
         <Text style={styles().name}>{data.name}</Text>
@@ -37,6 +42,6 @@ export default function Card({ data }: Props) {
       </View>
 
       <Image source={{ uri: data.thumbnail }} style={styles().carImage} />
-    </View>
+    </TouchableOpacity>
   );
 }
