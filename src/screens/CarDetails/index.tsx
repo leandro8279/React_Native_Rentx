@@ -1,18 +1,20 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import { BackButton } from "@components/index";
-import SpeedSvg from "@assets/speed.svg";
 import { Accessory } from "@components/Accessory";
 import { ImageSlider } from "@components/ImageSlider";
 import { Button } from "@components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigation/types";
+import { getAccessoryIcon } from "@utils/getAccessoryIcon";
 import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "CarDetails">;
 export function CarDetails({ navigation, route }: Props) {
+  const { car } = route.params;
+
   function handleScheduling() {
-    navigation.navigate("Scheduling");
+    navigation.navigate("Scheduling", { car });
   }
   return (
     <View style={styles().container}>
@@ -21,11 +23,7 @@ export function CarDetails({ navigation, route }: Props) {
       </View>
 
       <View style={styles().carImage}>
-        <ImageSlider
-          imagesUrl={[
-            "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png",
-          ]}
-        />
+        <ImageSlider imagesUrl={car.photos} />
       </View>
 
       <ScrollView
@@ -34,30 +32,23 @@ export function CarDetails({ navigation, route }: Props) {
       >
         <View style={styles().details}>
           <View>
-            <Text style={styles().brand}>Lamburghini</Text>
-            <Text style={styles().name}>Huracan</Text>
+            <Text style={styles().brand}>{car.brand}</Text>
+            <Text style={styles().name}>{car.name}</Text>
           </View>
 
           <View>
-            <Text style={styles().period}>Ao dia</Text>
-            <Text style={styles().price}>R$ 580</Text>
+            <Text style={styles().period}>{car.rent.period}</Text>
+            <Text style={styles().price}>R$ {car.rent.price.toFixed(2)}</Text>
           </View>
         </View>
 
         <View style={styles().accessories}>
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
+          {car.accessories.map(item => (
+            <Accessory name={item.name} icon={getAccessoryIcon(item.type)} />
+          ))}
         </View>
 
-        <Text style={styles().about}>
-          Este é automóvel desportivo. Surgiu do lendário touro de lide
-          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
-          para quem gosta de acelerar.
-        </Text>
+        <Text style={styles().about}>{car.about}</Text>
       </ScrollView>
       <View style={styles().footer}>
         <Button onPress={handleScheduling}>Escolher período do aluguel</Button>

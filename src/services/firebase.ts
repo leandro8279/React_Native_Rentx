@@ -1,8 +1,5 @@
-/* eslint-disable import/no-mutable-exports */
-/* eslint-disable import/no-duplicates */
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import Constants from "expo-constants";
 
 // Initialize Firebase
@@ -15,10 +12,7 @@ const firebaseConfig = {
   appId: Constants.manifest?.extra?.appId,
 };
 
-let Firebase: firebase.app.App;
-let firestore: firebase.firestore.Firestore;
-if (firebase.apps.length === 0) {
-  Firebase = firebase.initializeApp(firebaseConfig);
-  firestore = Firebase.firestore();
-}
-export { Firebase, firestore };
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+export { db, getFirestore };

@@ -7,8 +7,9 @@ import { View, Text, FlatList, StatusBar, Alert } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import { CarDTO } from "@dtos/CarDTO";
-import { firestore } from "@services/firebase";
+import { db } from "@services/firebase";
 import { Load } from "@components/Load";
+import { collection, getDocs } from "firebase/firestore";
 import { styles } from "./styles";
 
 type HomeProps = NativeStackScreenProps<AppStackParamList, "Home">;
@@ -19,8 +20,8 @@ export function Home({ navigation }: HomeProps) {
   useEffect(() => {
     async function fetchCars() {
       try {
-        const response = await firestore.collection("cars").get();
-        response.docs.forEach(doc => {
+        const querySnapshot = await getDocs(collection(db, "cars"));
+        querySnapshot.docs.forEach(doc => {
           setCars(oldArray => [...oldArray, doc.data() as CarDTO]);
         });
       } catch (error) {
@@ -31,8 +32,8 @@ export function Home({ navigation }: HomeProps) {
     }
     fetchCars();
   }, []);
-  function handleCarDetails() {
-    navigation.navigate("CarDetails");
+  function handleCarDetails(car: CarDTO) {
+    navigation.navigate("CarDetails", { car });
   }
   return (
     <View style={styles().container}>
@@ -53,7 +54,7 @@ export function Home({ navigation }: HomeProps) {
           keyExtractor={item => item.id}
           contentContainerStyle={{ padding: 16 }}
           renderItem={({ item }) => (
-            <Card data={item} onPress={handleCarDetails} />
+            <Card data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}

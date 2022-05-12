@@ -1,6 +1,5 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StatusBar } from "react-native";
 import ArrowSvg from "@assets/arrow.svg";
 import BackButton from "@components/BackButton";
 import { Calendar } from "@components/Calendar";
@@ -13,13 +12,18 @@ import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
 export function Scheduling({ navigation, route }: Props) {
+  const { car } = route.params;
   function handleSchedulingDetails() {
-    navigation.navigate("SchedulingDetails");
+    navigation.navigate("SchedulingDetails", { car });
   }
   return (
     <View style={styles().container}>
       <View style={styles().header}>
-        <StatusBar style="light" translucent backgroundColor="transparent" />
+        <StatusBar
+          barStyle="light-content"
+          translucent
+          backgroundColor="transparent"
+        />
         <BackButton onPress={() => navigation.goBack()} color={colors.shape} />
         <Text style={styles().title}>
           Escolha uma {"\n"}
