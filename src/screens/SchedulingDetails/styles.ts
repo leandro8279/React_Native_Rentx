@@ -5,6 +5,7 @@ import {
   getBottomSpace,
   getStatusBarHeight,
 } from "react-native-iphone-x-helper";
+
 export const styles = () =>
   StyleSheet.create({
     container: {

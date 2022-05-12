@@ -6,10 +6,10 @@ import BackButton from "@components/BackButton";
 import { Calendar } from "@components/Calendar";
 import { Button } from "@components/Button";
 
-import { styles } from "./styles";
 import { colors } from "@global/theme";
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
 export function Scheduling({ navigation, route }: Props) {

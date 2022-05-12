@@ -1,11 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AppStackParamList } from "./types";
 import { Home } from "@screens/Home";
 import { CarDetails } from "@screens/CarDetails";
 import { Scheduling } from "@screens/Scheduling";
 import { SchedulingDetails } from "@screens/SchedulingDetails";
 import { Confirmation } from "@screens/Confirmation";
+import { AppStackParamList } from "./types";
 
 const { Screen, Navigator } = createNativeStackNavigator<AppStackParamList>();
 export function AppNavigation() {

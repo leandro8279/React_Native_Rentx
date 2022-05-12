@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import { colors, fonts } from "@global/theme";
+
 export const styles = () =>
   StyleSheet.create({
     container: {

@@ -5,8 +5,8 @@ import {
   Calendar as CustomCalendar,
   LocaleConfig,
 } from "react-native-calendars";
-import { ptBR } from "./localeConfig";
 import { colors, fonts } from "@global/theme";
+import { ptBR } from "./localeConfig";
 
 LocaleConfig.locales["pt-br"] = ptBR;
 LocaleConfig.defaultLocale = "pt-br";
@@ -14,7 +14,7 @@ LocaleConfig.defaultLocale = "pt-br";
 export function Calendar() {
   return (
     <CustomCalendar
-      renderArrow={(direction) => (
+      renderArrow={direction => (
         <Feather
           size={24}
           color={colors.text}

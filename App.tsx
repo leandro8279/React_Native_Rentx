@@ -9,9 +9,5 @@ export default function App() {
   if (!loadFonts()) {
     return <AppLoading />;
   }
-  return (
-    <>
-      <RootNavigation />
-    </>
-  );
+  return <RootNavigation />;
 }

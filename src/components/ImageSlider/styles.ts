@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { colors, fonts } from "@global/theme";
+
 export const styles = (active?: boolean) =>
   StyleSheet.create({
     container: {

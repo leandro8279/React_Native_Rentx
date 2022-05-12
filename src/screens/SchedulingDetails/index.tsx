@@ -5,13 +5,13 @@ import { Accessory } from "@components/Accessory";
 import { Button } from "@components/Button";
 import { ImageSlider } from "@components/ImageSlider";
 import SpeedSvg from "@assets/speed.svg";
-import { styles } from "./styles";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "@global/theme";
 
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
 export function SchedulingDetails({ navigation, route }: Props) {

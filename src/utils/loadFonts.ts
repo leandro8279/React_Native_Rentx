@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable camelcase */
 import {
   useFonts,
   Inter_400Regular,
@@ -9,6 +11,7 @@ import {
   Archivo_500Medium,
   Archivo_600SemiBold,
 } from "@expo-google-fonts/archivo";
+
 export function loadFonts(): boolean {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,

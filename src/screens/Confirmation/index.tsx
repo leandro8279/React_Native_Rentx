@@ -7,10 +7,9 @@ import DoneSvg from "@assets/done.svg";
 
 import { RFValue } from "react-native-responsive-fontsize";
 
-import { styles } from "./styles";
-
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
 export function Confirmation({ navigation }: Props) {

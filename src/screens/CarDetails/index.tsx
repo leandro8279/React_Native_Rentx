@@ -2,12 +2,13 @@ import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import { BackButton } from "@components/index";
 import SpeedSvg from "@assets/speed.svg";
-import { styles } from "./styles";
 import { Accessory } from "@components/Accessory";
 import { ImageSlider } from "@components/ImageSlider";
 import { Button } from "@components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigation/types";
+import { styles } from "./styles";
+
 type Props = NativeStackScreenProps<AppStackParamList, "CarDetails">;
 export function CarDetails({ navigation, route }: Props) {
   function handleScheduling() {

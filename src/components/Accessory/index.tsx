@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { styles } from "./styles";
+
 type Props = {
   name: string;
   icon: React.FC<SvgProps>;
