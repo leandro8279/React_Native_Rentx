@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import BackButton from "@components/BackButton";
 import { Accessory } from "@components/Accessory";
@@ -11,13 +11,34 @@ import { colors } from "@global/theme";
 
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { format } from "date-fns";
+import { getPlatformDate } from "@utils/getPlatformDate";
+import { getAccessoryIcon } from "@utils/getAccessoryIcon";
 import { styles } from "./styles";
 
-type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
+type Props = NativeStackScreenProps<AppStackParamList, "SchedulingDetails">;
+type RentalPeriod = {
+  start: string;
+  end: string;
+};
 export function SchedulingDetails({ navigation, route }: Props) {
+  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
+    {} as RentalPeriod,
+  );
+  const { car, dates } = route.params;
+  const totalRent = Number(dates.length * car.rent.price);
   function handleConfirmation() {
     navigation.navigate("Confirmation");
   }
+  useEffect(() => {
+    setRentalPeriod({
+      start: format(getPlatformDate(new Date(dates[0])), "dd/MM/yyyy"),
+      end: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        "dd/MM/yyyy",
+      ),
+    });
+  }, []);
   return (
     <View style={styles().container}>
       <View style={styles().header}>
@@ -25,11 +46,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
       </View>
 
       <View style={styles().carImage}>
-        <ImageSlider
-          imagesUrl={[
-            "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png",
-          ]}
-        />
+        <ImageSlider imagesUrl={car.photos} />
       </View>
 
       <ScrollView
@@ -38,23 +55,26 @@ export function SchedulingDetails({ navigation, route }: Props) {
       >
         <View style={styles().details}>
           <View>
-            <Text style={styles().brand}>Lamburghini</Text>
-            <Text style={styles().name}>Huracan</Text>
+            <Text style={styles().brand}>{car.brand}</Text>
+            <Text style={styles().name}>{car.name}</Text>
           </View>
 
           <View>
-            <Text style={styles().period}>Ao dia</Text>
-            <Text style={styles().price}>R$ 580</Text>
+            <Text style={styles().period}>{car.rent.period}</Text>
+            <Text style={styles().price}>{`R$ ${car.rent.price.toFixed(
+              2,
+            )}`}</Text>
           </View>
         </View>
 
         <View style={styles().accessories}>
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
-          <Accessory name="380Km/h" icon={SpeedSvg} />
+          {car.accessories.map(accessory => (
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={getAccessoryIcon(accessory.type)}
+            />
+          ))}
         </View>
 
         <View style={styles().rentalPeriod}>
@@ -64,7 +84,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
 
           <View>
             <Text style={styles().dateTitle}>DE</Text>
-            <Text style={styles().dateValue}>18/10/2021</Text>
+            <Text style={styles().dateValue}>{rentalPeriod.start}</Text>
           </View>
 
           <Feather
@@ -75,7 +95,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
 
           <View>
             <Text style={styles().dateTitle}>ATÉ</Text>
-            <Text style={styles().dateValue}>21/10/2021</Text>
+            <Text style={styles().dateValue}>{rentalPeriod.end}</Text>
           </View>
         </View>
 
@@ -83,8 +103,12 @@ export function SchedulingDetails({ navigation, route }: Props) {
           <Text style={styles().rentalPriceLabel}>TOTAL</Text>
 
           <View style={styles().rentalPriceDetails}>
-            <Text style={styles().rentalPriceQuota}>R$ 580 x3 diárias</Text>
-            <Text style={styles().rentalPriceTotal}>R$ 2.900</Text>
+            <Text
+              style={styles().rentalPriceQuota}
+            >{`R$ ${car.rent.price} x${dates.length} diárias`}</Text>
+            <Text style={styles().rentalPriceTotal}>{`R$ ${totalRent.toFixed(
+              2,
+            )}`}</Text>
           </View>
         </View>
       </ScrollView>
