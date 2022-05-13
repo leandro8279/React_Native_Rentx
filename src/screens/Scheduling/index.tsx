@@ -21,13 +21,13 @@ type RentalPeriod = {
 };
 export function Scheduling({ navigation, route }: Props) {
   const [lastSelectedDate, setLastSelectedDate] = useState<DayProps>(
-    {} as DayProps,
+    {} as DayProps
   );
   const [markedDates, setMarkedDates] = useState<MarkedDateProps>(
-    {} as MarkedDateProps,
+    {} as MarkedDateProps
   );
   const [rentPeriod, setRentPeriod] = useState<RentalPeriod>(
-    {} as RentalPeriod,
+    {} as RentalPeriod
   );
   const { car } = route.params;
   function handleRentalConfirm() {
@@ -55,7 +55,7 @@ export function Scheduling({ navigation, route }: Props) {
     setRentPeriod({
       startFormatted: format(
         getPlatformDate(new Date(firstDate)),
-        "dd/MM/yyyy",
+        "dd/MM/yyyy"
       ),
       endFormatted: format(getPlatformDate(new Date(endDate)), "dd/MM/yyyy"),
     });
@@ -99,7 +99,10 @@ export function Scheduling({ navigation, route }: Props) {
       </ScrollView>
 
       <View style={styles().footer}>
-        <Button onPress={handleRentalConfirm} enabled>
+        <Button
+          onPress={handleRentalConfirm}
+          enabled={!!rentPeriod.startFormatted}
+        >
           Confirmar
         </Button>
       </View>

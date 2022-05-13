@@ -23,4 +23,15 @@ export const styles = () =>
       fontFamily: fonts.primary_400,
       color: colors.text,
     },
+    myCarsButton: {
+      width: 60,
+      height: 60,
+      backgroundColor: colors.main,
+      borderRadius: 30,
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+      bottom: 13,
+      right: 22,
+    },
   });

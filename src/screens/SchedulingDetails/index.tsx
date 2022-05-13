@@ -6,7 +6,6 @@ import BackButton from "@components/BackButton";
 import { Accessory } from "@components/Accessory";
 import { Button } from "@components/Button";
 import { ImageSlider } from "@components/ImageSlider";
-import SpeedSvg from "@assets/speed.svg";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "@global/theme";
@@ -16,8 +15,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { format } from "date-fns";
 import { getPlatformDate } from "@utils/getPlatformDate";
 import { getAccessoryIcon } from "@utils/getAccessoryIcon";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "@services/firebase";
+import { api } from "@services/api";
 import { styles } from "./styles";
 
 type SchedulingDetailsProps = NativeStackScreenProps<
@@ -28,38 +26,54 @@ type RentalPeriod = {
   start: string;
   end: string;
 };
-
+interface UnavailableDatesProps {
+  unavailable_dates: string[];
+}
 export function SchedulingDetails({
   navigation,
   route,
 }: SchedulingDetailsProps) {
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
-    {} as RentalPeriod,
+    {} as RentalPeriod
   );
+  const [loading, setLoading] = useState(false);
   const { car, dates } = route.params;
   const totalRent = Number(dates.length * car.rent.price);
+
   async function handleConfirmation() {
-    try {
-      let unavailable_dates;
-      const docRef = doc(db, "schedules_bycars", car.id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const results = docSnap.data()?.unavailable_dates;
-        unavailable_dates = [...results, ...dates];
-      }
-      unavailable_dates = dates;
-      await setDoc(doc(db, "schedules_bycars", car.id), { unavailable_dates });
-      navigation.navigate("Confirmation");
-    } catch (error) {
-      Alert.alert("Error ao realizar agendamento do carro");
-    }
+    setLoading(true);
+    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+    const dataUnavailableDates = schedulesByCar.data as UnavailableDatesProps;
+    const unavailableDates = dataUnavailableDates.unavailable_dates;
+
+    const unavailable_dates = [...unavailableDates, ...dates];
+
+    await api.post("/schedules_byuser", {
+      user_id: 2,
+      car,
+      startDate: format(getPlatformDate(new Date(dates[0])), "dd/MM/yyyy"),
+      endDate: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        "dd/MM/yyyy"
+      ),
+    });
+    api
+      .put(`/schedules_bycars/${car.id}`, {
+        id: car.id,
+        unavailable_dates,
+      })
+      .then(() => navigation.navigate("Confirmation"))
+      .catch(() => {
+        setLoading(false);
+        Alert.alert("Não foi possível confirmar o agendamento.");
+      });
   }
   useEffect(() => {
     setRentalPeriod({
       start: format(getPlatformDate(new Date(dates[0])), "dd/MM/yyyy"),
       end: format(
         getPlatformDate(new Date(dates[dates.length - 1])),
-        "dd/MM/yyyy",
+        "dd/MM/yyyy"
       ),
     });
   }, []);
@@ -86,13 +100,13 @@ export function SchedulingDetails({
           <View>
             <Text style={styles().period}>{car.rent.period}</Text>
             <Text style={styles().price}>{`R$ ${car.rent.price.toFixed(
-              2,
+              2
             )}`}</Text>
           </View>
         </View>
 
         <View style={styles().accessories}>
-          {car.accessories.map(accessory => (
+          {car.accessories.map((accessory) => (
             <Accessory
               key={accessory.type}
               name={accessory.name}
@@ -131,13 +145,18 @@ export function SchedulingDetails({
               style={styles().rentalPriceQuota}
             >{`R$ ${car.rent.price} x${dates.length} diárias`}</Text>
             <Text style={styles().rentalPriceTotal}>{`R$ ${totalRent.toFixed(
-              2,
+              2
             )}`}</Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles().footer}>
-        <Button onPress={handleConfirmation} color={colors.success}>
+        <Button
+          onPress={handleConfirmation}
+          color={colors.success}
+          enabled={!loading}
+          loading={!!loading}
+        >
           Alugar agora
         </Button>
       </View>

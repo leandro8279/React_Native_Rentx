@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, StatusBar, Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import Logo from "@assets/logo.svg";
 import { Card } from "@components/index";
 import { AppStackParamList } from "@navigation/types";
+
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { View, Text, FlatList, StatusBar, Alert } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import { CarDTO } from "@dtos/CarDTO";
-import { db } from "@services/firebase";
 import { Load } from "@components/Load";
-import { collection, getDocs } from "firebase/firestore";
+import { api } from "@services/api";
+import { colors } from "@global/theme";
 import { styles } from "./styles";
 
 type HomeProps = NativeStackScreenProps<AppStackParamList, "Home">;
@@ -20,12 +22,10 @@ export function Home({ navigation }: HomeProps) {
   useEffect(() => {
     async function fetchCars() {
       try {
-        const querySnapshot = await getDocs(collection(db, "cars"));
-        querySnapshot.docs.forEach(doc => {
-          setCars(oldArray => [...oldArray, doc.data() as CarDTO]);
-        });
+        const response = await api.get("/cars");
+        setCars(response.data);
       } catch (error) {
-        Alert.alert("Error ao carregar os dados do carro");
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -34,6 +34,9 @@ export function Home({ navigation }: HomeProps) {
   }, []);
   function handleCarDetails(car: CarDTO) {
     navigation.navigate("CarDetails", { car });
+  }
+  function handleMyCars() {
+    navigation.navigate("MyCars");
   }
   return (
     <View style={styles().container}>
@@ -51,13 +54,17 @@ export function Home({ navigation }: HomeProps) {
       ) : (
         <FlatList
           data={cars}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           contentContainerStyle={{ padding: 16 }}
           renderItem={({ item }) => (
             <Card data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}
+
+      <Pressable onPress={handleMyCars} style={styles().myCarsButton}>
+        <Ionicons name="ios-car-sport" size={32} color={colors.shape} />
+      </Pressable>
     </View>
   );
 }
