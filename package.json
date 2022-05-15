@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "expo start --dev-client",
+    "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "api": "json-server ./src/services/server.json --host 192.168.0.101 --port 3333 --delay 700",
+    "api": "json-server ./src/services/server.json --host 192.168.0.107 --port 3333 --delay 700",
     "web": "expo start --web"
   },
   "dependencies": {

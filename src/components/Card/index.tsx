@@ -16,7 +16,7 @@ type CarData = {
 
 type Props = {
   data: CarData;
-  onPress: () => void;
+  onPress?: () => void;
 };
 export default function Card({ data, onPress }: Props) {
   return (

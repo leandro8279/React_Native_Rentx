@@ -25,7 +25,7 @@ export const styles = () =>
     },
     content: {
       paddingHorizontal: 24,
-      paddingTop: getStatusBarHeight() + 16,
+      paddingTop: getStatusBarHeight(),
     },
     details: {
       width: "100%",

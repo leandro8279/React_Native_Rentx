@@ -47,7 +47,9 @@ export function Home({ navigation }: HomeProps) {
       />
       <View style={styles().header}>
         <Logo width={RFValue(114)} height={RFValue(11)} />
-        <Text style={styles().totalCars}>Total de 12 carros</Text>
+        <Text
+          style={styles().totalCars}
+        >{`Total de ${cars.length} carros`}</Text>
       </View>
       {loading ? (
         <Load />

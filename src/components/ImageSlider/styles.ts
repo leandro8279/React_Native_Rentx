@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { colors, fonts } from "@global/theme";
+import { colors } from "@global/theme";
 
 export const styles = (active?: boolean) =>
   StyleSheet.create({
@@ -27,5 +27,6 @@ export const styles = (active?: boolean) =>
     image: {
       width: 280,
       height: 132,
+      resizeMode: "contain",
     },
   });

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StatusBar, FlatList } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StatusBar, FlatList, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import BackButton from "@components/BackButton";
 import Card from "@components/Card";
@@ -36,7 +36,7 @@ export function MyCars({ navigation }: Props) {
         const response = await api.get("/schedules_byuser?user_id=2");
         setCars(response.data);
       } catch (error) {
-        console.log(error);
+        Alert.alert("Error ao carregar dados");
       } finally {
         setLoading(false);
       }
