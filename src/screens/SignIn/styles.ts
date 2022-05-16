@@ -8,6 +8,7 @@ export const styles = () =>
     container: {
       paddingHorizontal: 24,
       backgroundColor: colors.shape,
+      justifyContent: "flex-end",
     },
     header: {
       width: "100%",
@@ -28,8 +29,5 @@ export const styles = () =>
     form: {
       width: "100%",
       marginVertical: 64,
-    },
-    footer: {
-      width: "100%",
     },
   });

@@ -1,7 +1,3 @@
-import { Button } from "@components/Button";
-import { Input } from "@components/Input";
-import { PasswordInput } from "@components/PasswordInput";
-import { colors } from "@global/theme";
 import React, { useState } from "react";
 import {
   View,
@@ -9,15 +5,52 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Platform,
+  Alert,
 } from "react-native";
+import { Button } from "@components/Button";
+import { Input } from "@components/Input";
+import { PasswordInput } from "@components/PasswordInput";
+
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "@navigation/types";
+
+import * as Yup from "yup";
+
+import { colors } from "@global/theme";
 
 import { styles } from "./styles";
 
-export function SignIn() {
+type Props = NativeStackScreenProps<AppStackParamList, "SignIn">;
+export function SignIn({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  async function handleSignIn() {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required("E-mail obrigatório")
+          .email("Digite um e-mail válido"),
+        password: Yup.string().required("A senha é obrigatória"),
+      });
+      await schema.validate({ email, password });
+      Alert.alert("Tudo certo");
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert("Opa", error.message);
+      } else {
+        Alert.alert(
+          "Erro na autenticação",
+          "Ocorreu um erro ao fazer login, verifique as credenciais"
+        );
+      }
+    }
+  }
   return (
-    <KeyboardAvoidingView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={{ flex: 1, backgroundColor: colors.shape }}
+    >
       <TouchableWithoutFeedback>
         <View style={styles().container}>
           <View style={styles().header}>
@@ -49,14 +82,14 @@ export function SignIn() {
               value={password}
             />
           </View>
-          <View style={styles().footer}>
-            <Button onPress={() => {}} enabled style={{ marginBottom: 8 }}>
+          <View>
+            <Button onPress={handleSignIn} enabled style={{ marginBottom: 8 }}>
               Login
             </Button>
             <Button
               onPress={() => {}}
               light
-              color={colors.background_secondary}
+              color={colors.background_primary}
               enabled
             >
               Criar conta gratuita
