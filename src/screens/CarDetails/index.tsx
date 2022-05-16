@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import { BackButton } from "@components/index";
 import { Accessory } from "@components/Accessory";
 import { ImageSlider } from "@components/ImageSlider";
@@ -7,6 +7,13 @@ import { Button } from "@components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigation/types";
 import { getAccessoryIcon } from "@utils/getAccessoryIcon";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "CarDetails">;
@@ -16,19 +23,44 @@ export function CarDetails({ navigation, route }: Props) {
   function handleScheduling() {
     navigation.navigate("Scheduling", { car });
   }
+
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const headerStyleAnimation = useAnimatedStyle(() => {
+    return {
+      height: interpolate(
+        scrollY.value,
+        [0, 200],
+        [200, 70],
+        Extrapolate.CLAMP
+      ),
+    };
+  });
+  function handleBack() {
+    navigation.goBack();
+  }
   return (
     <View style={styles().container}>
-      <View style={styles().header}>
-        <BackButton onPress={() => navigation.goBack()} />
-      </View>
-
-      <View style={styles().carImage}>
-        <ImageSlider imagesUrl={car.photos} />
-      </View>
-
-      <ScrollView
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
+      <Animated.View style={[headerStyleAnimation]}>
+        <View style={styles().header}>
+          <BackButton onPress={handleBack} />
+        </View>
+        <View style={styles().carImage}>
+          <ImageSlider imagesUrl={car.photos} />
+        </View>
+      </Animated.View>
+      <Animated.ScrollView
         contentContainerStyle={styles().content}
         showsVerticalScrollIndicator={false}
+        onScroll={scrollHandler}
       >
         <View style={styles().details}>
           <View>
@@ -43,7 +75,7 @@ export function CarDetails({ navigation, route }: Props) {
         </View>
 
         <View style={styles().accessories}>
-          {car.accessories.map(item => (
+          {car.accessories.map((item) => (
             <Accessory
               key={item.type}
               name={item.name}
@@ -52,8 +84,14 @@ export function CarDetails({ navigation, route }: Props) {
           ))}
         </View>
 
-        <Text style={styles().about}>{car.about}</Text>
-      </ScrollView>
+        <Text style={styles().about}>
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+        </Text>
+      </Animated.ScrollView>
       <View style={styles().footer}>
         <Button onPress={handleScheduling}>Escolher período do aluguel</Button>
       </View>
