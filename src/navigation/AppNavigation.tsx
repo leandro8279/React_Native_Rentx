@@ -8,6 +8,8 @@ import { Confirmation } from "@screens/Confirmation";
 import { MyCars } from "@screens/MyCars";
 import { Splash } from "@screens/Splash";
 import { SignIn } from "@screens/SignIn";
+import { SignUpFirstStep } from "@screens/SignUp/SignUpFirstStep";
+import { SignUpSecondStep } from "@screens/SignUp/SignUpSecondStep";
 import { AppStackParamList } from "./types";
 
 const { Screen, Navigator } = createNativeStackNavigator<AppStackParamList>();
@@ -19,7 +21,9 @@ export function AppNavigation() {
         headerShown: false,
       }}
     >
+      <Screen name="SignUpFirstStep" component={SignUpFirstStep} />
       <Screen name="SignIn" component={SignIn} />
+      <Screen name="SignUpSecondStep" component={SignUpSecondStep} />
       <Screen name="Splash" component={Splash} />
       <Screen name="Home" component={Home} />
       <Screen name="CarDetails" component={CarDetails} />

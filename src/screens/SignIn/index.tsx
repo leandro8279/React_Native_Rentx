@@ -46,6 +46,9 @@ export function SignIn({ navigation }: Props) {
       }
     }
   }
+  function handleNewAccount() {
+    navigation.navigate("SignUpFirstStep");
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -87,7 +90,7 @@ export function SignIn({ navigation }: Props) {
               Login
             </Button>
             <Button
-              onPress={() => {}}
+              onPress={handleNewAccount}
               light
               color={colors.background_primary}
               enabled

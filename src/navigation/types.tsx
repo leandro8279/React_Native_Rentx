@@ -10,6 +10,8 @@ export type AppStackParamList = {
   Confirmation: undefined;
   MyCars: undefined;
   SignIn: undefined;
+  SignUpFirstStep: undefined;
+  SignUpSecondStep: undefined;
 };
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> =

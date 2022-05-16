@@ -14,7 +14,7 @@ type Props = {
   children: string;
   color?: string;
   loading?: boolean;
-  enabled: boolean;
+  enabled?: boolean;
   light?: boolean;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;

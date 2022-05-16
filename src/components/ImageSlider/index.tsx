@@ -1,3 +1,4 @@
+import { Bullet } from "@components/Bullet";
 import React, { useRef, useState } from "react";
 import { View, Image, ViewToken, FlatList } from "react-native";
 
@@ -21,10 +22,7 @@ export function ImageSlider({ imagesUrl }: Props) {
     <View style={styles().container}>
       <View style={styles().imageIndexes}>
         {imagesUrl.map((_, index) => (
-          <View
-            key={String(index)}
-            style={styles(index === imageIndex).imageIndex}
-          />
+          <Bullet key={String(index)} active={index === imageIndex} />
         ))}
       </View>
 
