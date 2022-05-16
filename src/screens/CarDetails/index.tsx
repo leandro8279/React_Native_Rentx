@@ -14,6 +14,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { colors } from "@global/theme";
 import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "CarDetails">;
@@ -39,6 +40,11 @@ export function CarDetails({ navigation, route }: Props) {
       ),
     };
   });
+  const sliderCarsStyleAnimation = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(scrollY.value, [0, 150], [1, 0], Extrapolate.CLAMP),
+    };
+  });
   function handleBack() {
     navigation.goBack();
   }
@@ -49,18 +55,27 @@ export function CarDetails({ navigation, route }: Props) {
         translucent
         backgroundColor="transparent"
       />
-      <Animated.View style={[headerStyleAnimation]}>
+      <Animated.View
+        style={[
+          headerStyleAnimation,
+          styles().contentHeader,
+          { backgroundColor: colors.background_secondary },
+        ]}
+      >
         <View style={styles().header}>
           <BackButton onPress={handleBack} />
         </View>
-        <View style={styles().carImage}>
-          <ImageSlider imagesUrl={car.photos} />
-        </View>
+        <Animated.View style={sliderCarsStyleAnimation}>
+          <View style={styles().carImage}>
+            <ImageSlider imagesUrl={car.photos} />
+          </View>
+        </Animated.View>
       </Animated.View>
       <Animated.ScrollView
         contentContainerStyle={styles().content}
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}
+        scrollEventThrottle={16}
       >
         <View style={styles().details}>
           <View>
@@ -84,16 +99,12 @@ export function CarDetails({ navigation, route }: Props) {
           ))}
         </View>
 
-        <Text style={styles().about}>
-          {car.about}
-          {car.about}
-          {car.about}
-          {car.about}
-          {car.about}
-        </Text>
+        <Text style={styles().about}>{car.about}</Text>
       </Animated.ScrollView>
       <View style={styles().footer}>
-        <Button onPress={handleScheduling}>Escolher período do aluguel</Button>
+        <Button onPress={handleScheduling} enabled>
+          Escolher período do aluguel
+        </Button>
       </View>
     </View>
   );

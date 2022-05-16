@@ -3,7 +3,7 @@ import { View, Text, StatusBar, FlatList, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import BackButton from "@components/BackButton";
 import Card from "@components/Card";
-import { Load } from "@components/Load";
+import { LoadAnimation } from "@components/LoadAnimation";
 import { CarDTO } from "@dtos/CarDTO";
 
 import { colors } from "@global/theme";
@@ -63,7 +63,7 @@ export function MyCars({ navigation }: Props) {
       </View>
 
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <View style={styles().content}>
           <View style={styles().appointments}>

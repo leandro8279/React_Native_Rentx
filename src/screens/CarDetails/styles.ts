@@ -12,6 +12,11 @@ export const styles = () =>
       flex: 1,
       backgroundColor: colors.background_secondary,
     },
+    contentHeader: {
+      position: "absolute",
+      overflow: "hidden",
+      zIndex: 1,
+    },
     header: {
       flexDirection: "row",
       justifyContent: "space-between",
@@ -25,7 +30,7 @@ export const styles = () =>
     },
     content: {
       paddingHorizontal: 24,
-      paddingTop: getStatusBarHeight(),
+      paddingTop: getStatusBarHeight() + 160,
     },
     details: {
       width: "100%",
