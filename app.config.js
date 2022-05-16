@@ -10,6 +10,10 @@ export default {
     updates: {
       fallbackToCacheTimeout: 0
     },
+    splash: {
+      image: "./assets/splash.png",
+      backgroundColor: "#1B1B1F"
+    },
     assetBundlePatterns: ['**/*'],
     extra: {
       apiKey: process.env.API_KEY,

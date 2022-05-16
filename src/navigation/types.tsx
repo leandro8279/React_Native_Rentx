@@ -2,6 +2,7 @@ import { CarDTO } from "@dtos/CarDTO";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type AppStackParamList = {
+  Splash: undefined;
   Home: undefined;
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
