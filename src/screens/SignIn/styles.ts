@@ -6,13 +6,12 @@ import { getStatusBarHeight } from "react-native-iphone-x-helper";
 export const styles = () =>
   StyleSheet.create({
     container: {
-      flex: 1,
       paddingHorizontal: 24,
-      backgroundColor: colors.background_primary,
+      backgroundColor: colors.shape,
     },
     header: {
       width: "100%",
-      marginTop: getStatusBarHeight() + 116,
+      marginTop: getStatusBarHeight() + 115,
     },
     title: {
       fontSize: RFValue(40),
@@ -25,6 +24,10 @@ export const styles = () =>
       fontFamily: fonts.primary_400,
       color: colors.text,
       lineHeight: RFValue(25),
+    },
+    form: {
+      width: "100%",
+      marginVertical: 64,
     },
     footer: {
       width: "100%",

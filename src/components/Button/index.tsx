@@ -1,6 +1,12 @@
 import React from "react";
 import { colors } from "@global/theme";
-import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 
 import { styles } from "./styles";
 
@@ -10,6 +16,7 @@ type Props = {
   loading?: boolean;
   enabled: boolean;
   light?: boolean;
+  style?: StyleProp<ViewStyle>;
   onPress: () => void;
 };
 export function Button({
@@ -18,11 +25,12 @@ export function Button({
   enabled = true,
   loading = false,
   light = false,
+  style,
   onPress,
 }: Props) {
   return (
     <TouchableOpacity
-      style={styles({ color, enabled, loading }).container}
+      style={[styles({ color, enabled, loading }).container, style]}
       disabled={!enabled}
       onPress={onPress}
     >
