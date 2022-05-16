@@ -1,5 +1,5 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from "react";
-import { loadFonts } from "@utils/loadFonts";
 import { LogBox } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -10,9 +10,14 @@ import {
   Archivo_500Medium,
   Archivo_600SemiBold,
 } from "@expo-google-fonts/archivo";
+import ignoreWarnings from "ignore-warnings";
 
-LogBox.ignoreAllLogs(true);
 export default function App() {
+  ignoreWarnings("warn", ["ViewPropTypes", "[react-native-gesture-handler]"]);
+
+  LogBox.ignoreLogs([
+    "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types'.",
+  ]);
   const [appIsReady, setAppIsReady] = useState(true);
   const fonts = {
     Inter_400Regular,

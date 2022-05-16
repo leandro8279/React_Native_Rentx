@@ -7,17 +7,19 @@ import { SchedulingDetails } from "@screens/SchedulingDetails";
 import { Confirmation } from "@screens/Confirmation";
 import { MyCars } from "@screens/MyCars";
 import { Splash } from "@screens/Splash";
+import { SignIn } from "@screens/SignIn";
 import { AppStackParamList } from "./types";
 
 const { Screen, Navigator } = createNativeStackNavigator<AppStackParamList>();
 export function AppNavigation() {
   return (
     <Navigator
-      initialRouteName="Splash"
+      // initialRouteName="Splash"
       screenOptions={{
         headerShown: false,
       }}
     >
+      <Screen name="SignIn" component={SignIn} />
       <Screen name="Splash" component={Splash} />
       <Screen name="Home" component={Home} />
       <Screen name="CarDetails" component={CarDetails} />

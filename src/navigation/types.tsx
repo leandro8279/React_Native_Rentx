@@ -9,6 +9,7 @@ export type AppStackParamList = {
   SchedulingDetails: { car: CarDTO; dates: string[] };
   Confirmation: undefined;
   MyCars: undefined;
+  SignIn: undefined;
 };
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> =
