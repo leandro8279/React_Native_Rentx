@@ -32,6 +32,7 @@ export function Input({ iconName, value, ...props }: Props) {
       <TextInput
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        value={value}
         style={styles(isFocused).input}
         {...props}
       />

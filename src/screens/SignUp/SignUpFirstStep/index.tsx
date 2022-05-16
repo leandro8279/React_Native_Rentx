@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,15 +14,34 @@ import BackButton from "@components/BackButton";
 import { Bullet } from "@components/Bullet";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import * as Yup from "yup";
+
 import { styles } from "./styles";
 
 type Props = NativeStackScreenProps<AppStackParamList, "SignUpFirstStep">;
 export function SignUpFirstStep({ navigation }: Props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [driverLicense, setDriverLicense] = useState("");
-  function handleRegister() {
-    navigation.navigate("SignUpSecondStep");
+  const [name, setName] = useState("Leandro Jose");
+  const [email, setEmail] = useState("Leandro@gmail.com");
+  const [driverLicense, setDriverLicense] = useState("1234");
+  async function handleNextStep() {
+    try {
+      const schema = Yup.object().shape({
+        driverLicense: Yup.string().required("CNH é obrigatória"),
+        email: Yup.string()
+          .email("E-mail inválido")
+          .required("E-mail é obrigatório"),
+        name: Yup.string().required("Nome é obrigatório"),
+      });
+
+      const data = { name, email, driverLicense };
+      await schema.validate(data);
+
+      navigation.navigate("SignUpSecondStep", { user: data });
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        return Alert.alert("Opa", error.message);
+      }
+    }
   }
 
   function handleBack() {
@@ -69,7 +89,7 @@ export function SignUpFirstStep({ navigation }: Props) {
               value={driverLicense}
             />
           </View>
-          <Button onPress={handleRegister}>Próximo</Button>
+          <Button onPress={handleNextStep}>Próximo</Button>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

@@ -11,11 +11,16 @@ import { AppStackParamList } from "@navigation/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 
-type Props = NativeStackScreenProps<AppStackParamList, "Scheduling">;
-export function Confirmation({ navigation }: Props) {
+type Props = NativeStackScreenProps<AppStackParamList, "Confirmation">;
+export function Confirmation({ navigation, route }: Props) {
+  const { title, message, nextScreenRoute } = route.params;
   const { width } = useWindowDimensions();
   const handleConfirm = () => {
-    navigation.replace("Home");
+    if (nextScreenRoute === "Home") {
+      navigation.replace("Home");
+    } else {
+      navigation.replace("SignIn");
+    }
   };
   return (
     <View style={styles().container}>
@@ -28,12 +33,8 @@ export function Confirmation({ navigation }: Props) {
 
       <View style={styles().content}>
         <DoneSvg width={80} height={80} />
-        <Text style={styles().title}>Carro alugado</Text>
-        <Text style={styles().subTitle}>
-          Agora você só precisa ir {"\n"}
-          até a concessionária da RENTX {"\n"}
-          pegar o seu automóvel.
-        </Text>
+        <Text style={styles().title}>{title}</Text>
+        <Text style={styles().subTitle}>{message}</Text>
       </View>
       <View style={styles().footer}>
         <ConfirmButton onPress={handleConfirm}>OK</ConfirmButton>

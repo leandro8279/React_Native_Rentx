@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import BackButton from "@components/BackButton";
 import { Bullet } from "@components/Bullet";
@@ -12,14 +13,29 @@ import { Button } from "@components/Button";
 import { PasswordInput } from "@components/PasswordInput";
 import { colors } from "@global/theme";
 
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "@navigation/types";
 import { styles } from "./styles";
 
-export function SignUpSecondStep({ navigation }) {
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-
+type Props = NativeStackScreenProps<AppStackParamList, "SignUpSecondStep">;
+export function SignUpSecondStep({ navigation, route }: Props) {
+  const [password, setPassword] = useState("1234");
+  const [passwordConfirm, setPasswordConfirm] = useState("1234");
+  const { user } = route.params;
   function handleRegister() {
-    navigation.navigate("Confirmation");
+    if (!password || !passwordConfirm) {
+      return Alert.alert("Informe a senha e a confirmação");
+    }
+    if (password !== passwordConfirm) {
+      return Alert.alert("As senhas não são iguais");
+    }
+    console.log(user);
+
+    navigation.navigate("Confirmation", {
+      nextScreenRoute: "SignIn",
+      title: "Conta criada!",
+      message: `Agora é só fazer o login\n e aproveitar.`,
+    });
   }
 
   function handleBack() {
@@ -57,7 +73,7 @@ export function SignUpSecondStep({ navigation }) {
             />
           </View>
           <Button onPress={handleRegister} color={colors.success}>
-            Próximo
+            Cadastrar
           </Button>
         </View>
       </TouchableWithoutFeedback>

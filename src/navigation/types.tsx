@@ -7,11 +7,17 @@ export type AppStackParamList = {
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
   SchedulingDetails: { car: CarDTO; dates: string[] };
-  Confirmation: undefined;
+  Confirmation: {
+    title: string;
+    message: string;
+    nextScreenRoute: "SignIn" | "Home";
+  };
   MyCars: undefined;
   SignIn: undefined;
   SignUpFirstStep: undefined;
-  SignUpSecondStep: undefined;
+  SignUpSecondStep: {
+    user: { name: string; email: string; driverLicense: string };
+  };
 };
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> =

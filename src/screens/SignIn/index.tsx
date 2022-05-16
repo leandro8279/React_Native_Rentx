@@ -35,6 +35,7 @@ export function SignIn({ navigation }: Props) {
       });
       await schema.validate({ email, password });
       Alert.alert("Tudo certo");
+      navigation.navigate("Home");
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa", error.message);
